@@ -29,6 +29,7 @@ export default function TopicDetail({ userId }: TopicDetailProps) {
   const [modalOpen, setModalOpen] = useState(false)
   const [editQuestion, setEditQuestion] = useState<QuestionWithProgress | null>(null)
   const [formLoading, setFormLoading] = useState(false)
+  const [formKey, setFormKey] = useState(0)
   const [search, setSearch] = useState('')
   const [difficultyFilter, setDifficultyFilter] = useState<Difficulty | ''>('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'new' | 'learning' | 'memorized'>('all')
@@ -53,7 +54,7 @@ export default function TopicDetail({ userId }: TopicDetailProps) {
     setFormLoading(true)
     await createQuestion(data)
     setFormLoading(false)
-    setModalOpen(false)
+    setFormKey(k => k + 1)
   }
 
   const handleUpdate = async (data: Partial<Question>) => {
@@ -219,6 +220,7 @@ export default function TopicDetail({ userId }: TopicDetailProps) {
       {/* Create modal */}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Yeni Soru Ekle" size="lg">
         <QuestionForm
+          key={formKey}
           onSubmit={handleCreate}
           onCancel={() => setModalOpen(false)}
           loading={formLoading}
