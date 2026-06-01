@@ -9,128 +9,133 @@ export default function Auth() {
   const [mode, setMode] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPw, setShowPw] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handle = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
-    setSuccess('')
-    setLoading(true)
-
+    setError(''); setSuccess(''); setLoading(true)
     try {
       if (mode === 'login') {
         const { error } = await signIn(email, password)
         if (error) setError(error.message)
       } else {
         const { error } = await signUp(email, password)
-        if (error) {
-          setError(error.message)
-        } else {
-          setSuccess('Hesap oluşturuldu! E-postanızı doğrulayın (eğer doğrulama aktifse) veya giriş yapın.')
-          setMode('login')
-        }
+        if (error) setError(error.message)
+        else { setSuccess('Hesap oluşturuldu. Giriş yapabilirsiniz.'); setMode('login') }
       }
-    } finally {
-      setLoading(false)
-    }
+    } finally { setLoading(false) }
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-violet-600/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 mb-4 shadow-2xl shadow-indigo-500/30">
-            <Brain size={32} className="text-white" />
+    <div className="min-h-screen bg-[#f5f5f5] flex">
+      {/* Left — brand panel */}
+      <div className="hidden lg:flex flex-col justify-between w-96 flex-shrink-0 bg-white border-r border-[#e8e8e8] p-10">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center">
+            <Brain size={14} className="text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-100">InterviewPrep</h1>
-          <p className="text-sm text-slate-400 mt-1">Mülakat Hazırlık Asistanı</p>
+          <span className="text-sm font-semibold text-[#111]">InterviewPrep</span>
         </div>
 
-        {/* Card */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl">
-          <div className="flex rounded-xl bg-slate-800/50 p-1 mb-6">
-            {(['login', 'register'] as const).map(m => (
-              <button
-                key={m}
-                onClick={() => { setMode(m); setError(''); setSuccess('') }}
-                className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                  mode === m
-                    ? 'bg-indigo-600 text-white shadow-lg'
-                    : 'text-slate-400 hover:text-slate-200'
-                }`}
-              >
-                {m === 'login' ? 'Giriş Yap' : 'Kayıt Ol'}
-              </button>
-            ))}
+        <div className="space-y-8">
+          <div>
+            <h2 className="text-2xl font-bold text-[#111] leading-snug">
+              Mülakata hazırlan,<br />
+              <span className="text-emerald-600">kendine güven.</span>
+            </h2>
+            <p className="mt-3 text-sm text-[#888] leading-relaxed">
+              Spaced repetition ile sorularını sistematik biçimde çalış.
+            </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              label="E-posta"
-              type="email"
-              placeholder="ornek@email.com"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              icon={<Mail size={16} />}
-              required
-              autoComplete="email"
-            />
-            <div>
-              <div className="relative">
-                <Input
-                  label="Şifre"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  icon={<Lock size={16} />}
-                  required
-                  minLength={6}
-                  autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(s => !s)}
-                  className="absolute right-3 bottom-2.5 text-slate-400 hover:text-slate-200 transition-colors"
-                >
-                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                </button>
+          <div className="space-y-3.5">
+            {[
+              { label: 'Konuları ve soruları düzenle' },
+              { label: 'Aralıklı tekrar ile ezber yap' },
+              { label: 'İlerlemeyi takip et' },
+              { label: 'Mülakat cevaplarını prova et' },
+            ].map(f => (
+              <div key={f.label} className="flex items-center gap-2.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-600 flex-shrink-0" />
+                <p className="text-sm text-[#555]">{f.label}</p>
               </div>
-              {mode === 'register' && (
-                <p className="text-xs text-slate-500 mt-1">En az 6 karakter</p>
-              )}
+            ))}
+          </div>
+        </div>
+
+        <p className="text-[11px] text-[#ccc]">© 2025 InterviewPrep</p>
+      </div>
+
+      {/* Right — form */}
+      <div className="flex-1 flex items-center justify-center p-6">
+        <div className="w-full max-w-[340px] space-y-5 animate-fade-up">
+          <div className="lg:hidden flex items-center gap-2.5 justify-center mb-4">
+            <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center">
+              <Brain size={14} className="text-white" />
+            </div>
+            <span className="text-sm font-semibold text-[#111]">InterviewPrep</span>
+          </div>
+
+          <div>
+            <h1 className="text-lg font-bold text-[#111]">
+              {mode === 'login' ? 'Giriş yap' : 'Hesap oluştur'}
+            </h1>
+            <p className="text-sm text-[#888] mt-0.5">
+              {mode === 'login' ? 'Çalışmaya devam et.' : 'Ücretsiz başla.'}
+            </p>
+          </div>
+
+          <form onSubmit={handle} className="space-y-3.5">
+            <Input
+              type="email" label="E-posta" placeholder="ad@example.com"
+              value={email} onChange={e => setEmail(e.target.value)}
+              icon={<Mail size={14} />} required autoComplete="email"
+            />
+            <div className="relative">
+              <Input
+                type={showPw ? 'text' : 'password'} label="Şifre"
+                placeholder="••••••••"
+                value={password} onChange={e => setPassword(e.target.value)}
+                icon={<Lock size={14} />} required minLength={6}
+                autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                hint={mode === 'register' ? 'En az 6 karakter' : undefined}
+              />
+              <button type="button" onClick={() => setShowPw(s => !s)}
+                className="absolute right-3 bottom-2.5 text-[#aaa] hover:text-[#555] transition-colors">
+                {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
+              </button>
             </div>
 
             {error && (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-3 text-sm text-red-400">
+              <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2.5 text-xs text-red-600">
                 {error}
               </div>
             )}
             {success && (
-              <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 text-sm text-emerald-400">
+              <div className="bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2.5 text-xs text-emerald-700">
                 {success}
               </div>
             )}
 
-            <Button type="submit" size="lg" loading={loading} className="w-full">
+            <Button type="submit" size="lg" loading={loading} className="w-full mt-1">
               {mode === 'login' ? 'Giriş Yap' : 'Hesap Oluştur'}
             </Button>
           </form>
-        </div>
 
-        <p className="text-center text-xs text-slate-600 mt-6">
-          Mülakat hazırlığını sistematik hale getir.
-        </p>
+          <p className="text-center text-sm text-[#888]">
+            {mode === 'login' ? 'Hesabın yok mu? ' : 'Zaten hesabın var mı? '}
+            <button
+              type="button"
+              onClick={() => { setMode(m => m === 'login' ? 'register' : 'login'); setError(''); setSuccess('') }}
+              className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors"
+            >
+              {mode === 'login' ? 'Kayıt Ol' : 'Giriş Yap'}
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   )

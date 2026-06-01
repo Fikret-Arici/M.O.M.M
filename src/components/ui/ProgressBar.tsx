@@ -2,41 +2,37 @@ interface ProgressBarProps {
   value: number
   max?: number
   className?: string
-  color?: 'indigo' | 'violet' | 'emerald' | 'amber' | 'red'
-  size?: 'sm' | 'md'
+  color?: 'emerald' | 'sky' | 'amber' | 'red' | 'zinc'
+  size?: 'xs' | 'sm' | 'md'
   showLabel?: boolean
 }
 
-const colorClasses = {
-  indigo: 'bg-indigo-500',
-  violet: 'bg-violet-500',
+const colors = {
   emerald: 'bg-emerald-500',
-  amber: 'bg-amber-500',
-  red: 'bg-red-500',
+  sky:     'bg-sky-500',
+  amber:   'bg-amber-500',
+  red:     'bg-red-500',
+  zinc:    'bg-zinc-400',
 }
 
-export function ProgressBar({
-  value,
-  max = 100,
-  className = '',
-  color = 'indigo',
-  size = 'md',
-  showLabel = false,
-}: ProgressBarProps) {
-  const percentage = Math.min(Math.round((value / max) * 100), 100)
+const heights = { xs: 'h-1', sm: 'h-1.5', md: 'h-2' }
 
+export function ProgressBar({
+  value, max = 100, className = '', color = 'emerald', size = 'sm', showLabel = false,
+}: ProgressBarProps) {
+  const pct = Math.min(Math.round((value / (max || 1)) * 100), 100)
   return (
     <div className={`w-full ${className}`}>
       {showLabel && (
-        <div className="flex justify-between text-xs text-slate-400 mb-1">
+        <div className="flex justify-between text-[11px] text-[#888] mb-1.5">
           <span>İlerleme</span>
-          <span>{percentage}%</span>
+          <span className="text-[#555] font-medium">{pct}%</span>
         </div>
       )}
-      <div className={`w-full bg-slate-800 rounded-full overflow-hidden ${size === 'sm' ? 'h-1.5' : 'h-2'}`}>
+      <div className={`w-full bg-[#eeeeee] rounded-full overflow-hidden ${heights[size]}`}>
         <div
-          className={`${colorClasses[color]} rounded-full transition-all duration-700 ease-out`}
-          style={{ width: `${percentage}%` }}
+          className={`${colors[color]} rounded-full transition-all duration-700 ease-out ${heights[size]}`}
+          style={{ width: `${pct}%` }}
         />
       </div>
     </div>

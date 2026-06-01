@@ -1,33 +1,33 @@
 import React from 'react'
-import { Card } from '../ui/Card'
 
 interface StatsCardProps {
   icon: React.ReactNode
   label: string
   value: number | string
   sub?: string
-  iconBg?: string
-  trend?: number
+  accent?: 'emerald' | 'sky' | 'amber' | 'red' | 'zinc'
 }
 
-export function StatsCard({ icon, label, value, sub, iconBg = 'bg-indigo-500/20', trend }: StatsCardProps) {
+const accents = {
+  emerald: { bg: 'bg-emerald-600/10', icon: 'text-emerald-600', num: 'text-[#111]' },
+  sky:     { bg: 'bg-sky-500/10',     icon: 'text-sky-600',     num: 'text-[#111]' },
+  amber:   { bg: 'bg-amber-500/10',   icon: 'text-amber-600',   num: 'text-[#111]' },
+  red:     { bg: 'bg-red-500/10',     icon: 'text-red-600',     num: 'text-[#111]' },
+  zinc:    { bg: 'bg-[#eeeeee]',      icon: 'text-[#888]',      num: 'text-[#111]' },
+}
+
+export function StatsCard({ icon, label, value, sub, accent = 'zinc' }: StatsCardProps) {
+  const a = accents[accent]
   return (
-    <Card className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <div className={`w-10 h-10 rounded-xl ${iconBg} flex items-center justify-center`}>
-          {icon}
-        </div>
-        {trend !== undefined && (
-          <span className={`text-xs font-medium ${trend >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-            {trend >= 0 ? '+' : ''}{trend}%
-          </span>
-        )}
+    <div className="bg-white border border-[#e8e8e8] rounded-xl p-5 flex flex-col gap-4">
+      <div className={`w-8 h-8 rounded-lg ${a.bg} ${a.icon} flex items-center justify-center`}>
+        {icon}
       </div>
       <div>
-        <p className="text-2xl font-bold text-slate-100">{value}</p>
-        <p className="text-sm text-slate-400 mt-0.5">{label}</p>
-        {sub && <p className="text-xs text-slate-600 mt-1">{sub}</p>}
+        <p className={`text-2xl font-bold tracking-tight ${a.num}`}>{value}</p>
+        <p className="text-xs text-[#888] mt-0.5">{label}</p>
+        {sub && <p className="text-[11px] text-[#bbb] mt-1">{sub}</p>}
       </div>
-    </Card>
+    </div>
   )
 }

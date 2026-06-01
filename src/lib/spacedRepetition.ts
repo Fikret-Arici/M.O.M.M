@@ -29,10 +29,10 @@ export function getConfidenceLabel(confidence: ConfidenceLevel): string {
 
 export function getConfidenceColor(confidence: ConfidenceLevel): string {
   const colors: Record<ConfidenceLevel, string> = {
-    0: 'bg-red-500/20 text-red-400 border-red-500/30',
-    1: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-    2: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-    3: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+    0: 'bg-red-500/10 text-red-700 border-red-500/25',
+    1: 'bg-amber-500/10 text-amber-700 border-amber-500/25',
+    2: 'bg-sky-500/10 text-sky-700 border-sky-500/25',
+    3: 'bg-emerald-600/10 text-emerald-700 border-emerald-600/25',
   }
   return colors[confidence]
 }

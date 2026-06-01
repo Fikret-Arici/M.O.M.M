@@ -53,6 +53,23 @@ CREATE INDEX IF NOT EXISTS idx_study_progress_user_id ON study_progress(user_id)
 CREATE INDEX IF NOT EXISTS idx_study_progress_question_id ON study_progress(question_id);
 CREATE INDEX IF NOT EXISTS idx_study_progress_next_review ON study_progress(next_review_at);
 
+-- Tasks table
+CREATE TABLE IF NOT EXISTS tasks (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT,
+  priority TEXT NOT NULL DEFAULT 'medium'
+    CHECK (priority IN ('low', 'medium', 'high', 'urgent')),
+  status TEXT NOT NULL DEFAULT 'todo'
+    CHECK (status IN ('todo', 'in_progress', 'done')),
+  due_date DATE,
+  topic_id UUID REFERENCES topics(id) ON DELETE SET NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_tasks_user_id ON tasks(user_id);
+
 -- ============================================================
 -- Row Level Security (RLS)
 -- ============================================================
@@ -101,6 +118,18 @@ CREATE POLICY "progress_select" ON study_progress FOR SELECT USING (auth.uid() =
 CREATE POLICY "progress_insert" ON study_progress FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "progress_update" ON study_progress FOR UPDATE USING (auth.uid() = user_id);
 CREATE POLICY "progress_delete" ON study_progress FOR DELETE USING (auth.uid() = user_id);
+
+-- Tasks RLS
+ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "tasks_select" ON tasks;
+DROP POLICY IF EXISTS "tasks_insert" ON tasks;
+DROP POLICY IF EXISTS "tasks_update" ON tasks;
+DROP POLICY IF EXISTS "tasks_delete" ON tasks;
+
+CREATE POLICY "tasks_select" ON tasks FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "tasks_insert" ON tasks FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "tasks_update" ON tasks FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "tasks_delete" ON tasks FOR DELETE USING (auth.uid() = user_id);
 
 -- ============================================================
 -- Sample Data (opsiyonel - test için)

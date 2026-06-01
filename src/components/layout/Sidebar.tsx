@@ -1,13 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import {
-  LayoutDashboard,
-  BookOpen,
-  RefreshCw,
-  BarChart3,
-  LogOut,
-  Brain,
-  Menu,
-  X,
+  LayoutDashboard, BookOpen, RefreshCw,
+  BarChart3, LogOut, Brain, Menu, X, ClipboardList,
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -17,94 +11,93 @@ interface SidebarProps {
 }
 
 const navItems = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/topics', icon: BookOpen, label: 'Konular' },
-  { to: '/review', icon: RefreshCw, label: 'Tekrar Modu' },
-  { to: '/statistics', icon: BarChart3, label: 'İstatistikler' },
+  { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/topics',     icon: BookOpen,         label: 'Konular' },
+  { to: '/tasks',      icon: ClipboardList,    label: 'Görevler' },
+  { to: '/review',     icon: RefreshCw,        label: 'Tekrar' },
+  { to: '/statistics', icon: BarChart3,        label: 'İstatistikler' },
 ]
 
-export function Sidebar({ onSignOut, userEmail }: SidebarProps) {
-  const [mobileOpen, setMobileOpen] = useState(false)
-
-  const navContent = (
-    <>
-      <div className="flex items-center gap-3 px-4 py-5 border-b border-slate-800">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center">
-          <Brain size={18} className="text-white" />
-        </div>
-        <div>
-          <p className="text-sm font-bold text-slate-100">InterviewPrep</p>
-          <p className="text-xs text-slate-500">Çalışma Asistanı</p>
+function NavContent({ onSignOut, userEmail, onClose }: SidebarProps & { onClose?: () => void }) {
+  return (
+    <div className="flex flex-col h-full">
+      <div className="px-4 py-5 border-b border-[#e8e8e8]">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center flex-shrink-0">
+            <Brain size={14} className="text-white" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-[#111] leading-none">InterviewPrep</p>
+            <p className="text-[10px] text-[#aaa] mt-0.5 leading-none">Çalışma Asistanı</p>
+          </div>
         </div>
       </div>
 
-      <nav className="flex-1 p-3 space-y-1">
+      <nav className="flex-1 px-2 py-3 space-y-0.5">
         {navItems.map(item => (
           <NavLink
             key={item.to}
             to={item.to}
-            onClick={() => setMobileOpen(false)}
+            onClick={onClose}
             className={({ isActive }) => `
-              flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
-              transition-all duration-200
+              flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium
+              transition-colors duration-150
               ${isActive
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
-                : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
+                ? 'bg-emerald-600/10 text-emerald-700'
+                : 'text-[#888] hover:text-[#333] hover:bg-[#f0f0f0]'
               }
             `}
           >
-            <item.icon size={18} />
-            {item.label}
+            {({ isActive }) => (
+              <>
+                <item.icon size={15} className={isActive ? 'text-emerald-600' : 'text-[#aaa]'} />
+                {item.label}
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
 
-      <div className="p-3 border-t border-slate-800">
-        <div className="px-3 py-2 mb-1">
-          <p className="text-xs text-slate-500 truncate">{userEmail}</p>
+      <div className="border-t border-[#e8e8e8] px-2 py-3 space-y-0.5">
+        <div className="px-3 py-1">
+          <p className="text-[11px] text-[#bbb] truncate">{userEmail}</p>
         </div>
         <button
           onClick={onSignOut}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
-            text-slate-400 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-[13px] font-medium
+            text-[#888] hover:text-red-600 hover:bg-red-50 transition-colors duration-150"
         >
-          <LogOut size={18} />
+          <LogOut size={15} />
           Çıkış Yap
         </button>
       </div>
-    </>
+    </div>
   )
+}
+
+export function Sidebar({ onSignOut, userEmail }: SidebarProps) {
+  const [open, setOpen] = useState(false)
 
   return (
     <>
-      {/* Mobile toggle */}
       <button
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-xl bg-slate-800 border border-slate-700 text-slate-300"
-        onClick={() => setMobileOpen(!mobileOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white border border-[#e8e8e8] text-[#555]"
+        onClick={() => setOpen(o => !o)}
       >
-        {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+        {open ? <X size={18} /> : <Menu size={18} />}
       </button>
 
-      {/* Mobile overlay */}
-      {mobileOpen && (
-        <div
-          className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
-          onClick={() => setMobileOpen(false)}
-        />
+      {open && (
+        <div className="lg:hidden fixed inset-0 z-40 bg-black/20" onClick={() => setOpen(false)} />
       )}
 
-      {/* Mobile drawer */}
-      <div className={`
-        lg:hidden fixed top-0 left-0 z-40 h-full w-64 bg-slate-900 border-r border-slate-800
-        flex flex-col transition-transform duration-300
-        ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
-        {navContent}
+      <div className={`lg:hidden fixed top-0 left-0 z-40 h-full w-52 bg-white border-r border-[#e8e8e8]
+        transition-transform duration-200 ${open ? 'translate-x-0' : '-translate-x-full'}`}>
+        <NavContent onSignOut={onSignOut} userEmail={userEmail} onClose={() => setOpen(false)} />
       </div>
 
-      {/* Desktop sidebar */}
-      <div className="hidden lg:flex flex-col w-60 bg-slate-900 border-r border-slate-800 fixed top-0 left-0 h-full z-30">
-        {navContent}
+      <div className="hidden lg:block fixed top-0 left-0 h-full w-52 bg-white border-r border-[#e8e8e8] z-30">
+        <NavContent onSignOut={onSignOut} userEmail={userEmail} />
       </div>
     </>
   )

@@ -6,10 +6,11 @@ export type QuestionType =
   | 'interview_question'
 
 export type Difficulty = 'easy' | 'medium' | 'hard'
-
 export type ProgressStatus = 'new' | 'learning' | 'memorized'
-
 export type ConfidenceLevel = 0 | 1 | 2 | 3
+
+export type TaskPriority = 'low' | 'medium' | 'high' | 'urgent'
+export type TaskStatus   = 'todo' | 'in_progress' | 'done'
 
 export interface Topic {
   id: string
@@ -44,6 +45,18 @@ export interface StudyProgress {
   last_reviewed_at: string
   next_review_at: string
   review_count: number
+}
+
+export interface Task {
+  id: string
+  user_id: string
+  title: string
+  description: string | null
+  priority: TaskPriority
+  status: TaskStatus
+  due_date: string | null
+  topic_id: string | null
+  created_at: string
 }
 
 export interface TopicWithStats extends Topic {

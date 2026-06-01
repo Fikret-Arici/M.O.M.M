@@ -8,6 +8,7 @@ import TopicDetail from './pages/TopicDetail'
 import StudyMode from './pages/StudyMode'
 import ReviewMode from './pages/ReviewMode'
 import Statistics from './pages/Statistics'
+import Tasks from './pages/Tasks'
 import { PageSpinner } from './components/ui/Spinner'
 
 function AppRoutes() {
@@ -15,7 +16,7 @@ function AppRoutes() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <PageSpinner />
       </div>
     )
@@ -33,15 +34,16 @@ function AppRoutes() {
   return (
     <Layout onSignOut={signOut} userEmail={user.email}>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/auth" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/dashboard" element={<Dashboard userId={user.id} />} />
-        <Route path="/topics" element={<Topics userId={user.id} />} />
-        <Route path="/topics/:topicId" element={<TopicDetail userId={user.id} />} />
+        <Route path="/"                     element={<Navigate to="/dashboard" replace />} />
+        <Route path="/auth"                 element={<Navigate to="/dashboard" replace />} />
+        <Route path="/dashboard"            element={<Dashboard userId={user.id} />} />
+        <Route path="/topics"               element={<Topics userId={user.id} />} />
+        <Route path="/topics/:topicId"      element={<TopicDetail userId={user.id} />} />
         <Route path="/topics/:topicId/study" element={<StudyMode userId={user.id} />} />
-        <Route path="/review" element={<ReviewMode userId={user.id} />} />
-        <Route path="/statistics" element={<Statistics userId={user.id} />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/review"               element={<ReviewMode userId={user.id} />} />
+        <Route path="/tasks"                element={<Tasks userId={user.id} />} />
+        <Route path="/statistics"           element={<Statistics userId={user.id} />} />
+        <Route path="*"                     element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Layout>
   )

@@ -13,7 +13,7 @@ interface StatisticsProps {
   userId: string
 }
 
-const PIE_COLORS = ['#6366f1', '#22d3ee', '#10b981', '#f59e0b']
+const PIE_COLORS = ['#10b981', '#0ea5e9', '#f59e0b', '#ef4444']
 
 export default function Statistics({ userId }: StatisticsProps) {
   const { topics, loading } = useTopics(userId)
@@ -66,64 +66,43 @@ export default function Statistics({ userId }: StatisticsProps) {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-slate-100">İstatistikler</h1>
-        <p className="text-slate-400 text-sm mt-1">Mülakat hazırlık durumun</p>
+        <h1 className="text-2xl font-bold text-[#111]">İstatistikler</h1>
+        <p className="text-[#888] text-sm mt-1">Mülakat hazırlık durumun</p>
       </div>
 
       {/* Overview stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatsCard
-          icon={<Target size={20} className="text-indigo-400" />}
-          iconBg="bg-indigo-500/20"
-          label="Toplam Soru"
-          value={totalQuestions}
-        />
-        <StatsCard
-          icon={<Award size={20} className="text-emerald-400" />}
-          iconBg="bg-emerald-500/20"
-          label="Ezberlendi"
-          value={memorizedCount}
-          sub={`%${overallProgress} tamamlandı`}
-        />
-        <StatsCard
-          icon={<TrendingUp size={20} className="text-blue-400" />}
-          iconBg="bg-blue-500/20"
-          label="Öğreniliyor"
-          value={learningCount}
-        />
-        <StatsCard
-          icon={<BarChart3 size={20} className="text-violet-400" />}
-          iconBg="bg-violet-500/20"
-          label="Toplam Tekrar"
-          value={reviewCount}
-        />
+        <StatsCard icon={<Target size={18} />}      accent="sky"     label="Toplam Soru"    value={totalQuestions} />
+        <StatsCard icon={<Award size={18} />}       accent="emerald" label="Ezberlendi"     value={memorizedCount} sub={`%${overallProgress} tamamlandı`} />
+        <StatsCard icon={<TrendingUp size={18} />}  accent="sky"     label="Öğreniliyor"   value={learningCount} />
+        <StatsCard icon={<BarChart3 size={18} />}   accent="zinc"    label="Toplam Tekrar"  value={reviewCount} />
       </div>
 
       {/* Overall progress */}
       <Card>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-slate-200">Genel İlerleme</h2>
-          <Badge className="bg-indigo-500/20 text-indigo-400 border-indigo-500/30 text-base font-bold px-3 py-1">
+          <h2 className="text-base font-semibold text-[#222]">Genel İlerleme</h2>
+          <Badge className="bg-[#f0f0f0] text-[#111] border-[#e8e8e8] text-base font-bold px-3 py-1">
             %{overallProgress}
           </Badge>
         </div>
         <ProgressBar
           value={memorizedCount}
           max={totalQuestions || 1}
-          color={overallProgress === 100 ? 'emerald' : overallProgress > 60 ? 'indigo' : overallProgress > 30 ? 'amber' : 'red'}
+          color={overallProgress === 100 ? 'emerald' : overallProgress > 30 ? 'sky' : 'amber'}
           size="md"
         />
-        <div className="flex gap-6 mt-4 text-sm text-slate-400">
+        <div className="flex gap-6 mt-4 text-sm text-[#888]">
           <span className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
             Ezberlendi: {memorizedCount}
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+            <span className="w-2.5 h-2.5 rounded-full bg-sky-500" />
             Öğreniliyor: {learningCount}
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ddd]" />
             Yeni: {Math.max(0, newCount)}
           </span>
         </div>
@@ -132,33 +111,34 @@ export default function Statistics({ userId }: StatisticsProps) {
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Bar chart */}
         <Card className="lg:col-span-2" padding="lg">
-          <h2 className="text-base font-semibold text-slate-200 mb-6">Konu Bazında İlerleme</h2>
+          <h2 className="text-base font-semibold text-[#222] mb-6">Konu Bazında İlerleme</h2>
           {topicChartData.length === 0 ? (
-            <p className="text-sm text-slate-500 text-center py-8">Henüz veri yok</p>
+            <p className="text-sm text-[#888] text-center py-8">Henüz veri yok</p>
           ) : (
             <ResponsiveContainer width="100%" height={240}>
               <BarChart data={topicChartData} barGap={4}>
                 <XAxis
                   dataKey="name"
-                  tick={{ fill: '#64748b', fontSize: 11 }}
+                  tick={{ fill: '#aaa', fontSize: 11 }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
-                  tick={{ fill: '#64748b', fontSize: 11 }}
+                  tick={{ fill: '#aaa', fontSize: 11 }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#1e293b',
-                    border: '1px solid #334155',
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #e8e8e8',
                     borderRadius: '12px',
-                    color: '#e2e8f0',
+                    color: '#111',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
                   }}
                 />
-                <Bar dataKey="toplam" fill="#1e293b" radius={[4, 4, 0, 0]} name="Toplam" />
-                <Bar dataKey="ezberlendi" fill="#6366f1" radius={[4, 4, 0, 0]} name="Ezberlendi" />
+                <Bar dataKey="toplam" fill="#eeeeee" radius={[4, 4, 0, 0]} name="Toplam" />
+                <Bar dataKey="ezberlendi" fill="#10b981" radius={[4, 4, 0, 0]} name="Ezberlendi" />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -166,9 +146,9 @@ export default function Statistics({ userId }: StatisticsProps) {
 
         {/* Pie chart */}
         <Card padding="lg">
-          <h2 className="text-base font-semibold text-slate-200 mb-6">Durum Dağılımı</h2>
+          <h2 className="text-base font-semibold text-[#222] mb-6">Durum Dağılımı</h2>
           {pieData.length === 0 ? (
-            <p className="text-sm text-slate-500 text-center py-8">Henüz veri yok</p>
+            <p className="text-sm text-[#888] text-center py-8">Henüz veri yok</p>
           ) : (
             <>
               <ResponsiveContainer width="100%" height={160}>
@@ -188,10 +168,11 @@ export default function Statistics({ userId }: StatisticsProps) {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: '#1e293b',
-                      border: '1px solid #334155',
+                      backgroundColor: '#ffffff',
+                      border: '1px solid #e8e8e8',
                       borderRadius: '12px',
-                      color: '#e2e8f0',
+                      color: '#111',
+                      boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
                     }}
                   />
                 </PieChart>
@@ -199,11 +180,11 @@ export default function Statistics({ userId }: StatisticsProps) {
               <div className="space-y-2 mt-4">
                 {pieData.map((d, i) => (
                   <div key={d.name} className="flex items-center justify-between text-sm">
-                    <span className="flex items-center gap-2 text-slate-400">
+                    <span className="flex items-center gap-2 text-[#888]">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: PIE_COLORS[i] }} />
                       {d.name}
                     </span>
-                    <span className="text-slate-300 font-medium">{d.value}</span>
+                    <span className="text-[#333] font-medium">{d.value}</span>
                   </div>
                 ))}
               </div>
@@ -214,9 +195,9 @@ export default function Statistics({ userId }: StatisticsProps) {
 
       {/* Per-topic breakdown */}
       <Card>
-        <h2 className="text-base font-semibold text-slate-200 mb-4">Konu Detayları</h2>
+        <h2 className="text-base font-semibold text-[#222] mb-4">Konu Detayları</h2>
         {topics.length === 0 ? (
-          <p className="text-sm text-slate-500">Henüz konu eklenmemiş.</p>
+          <p className="text-sm text-[#888]">Henüz konu eklenmemiş.</p>
         ) : (
           <div className="space-y-4">
             {topics
@@ -225,8 +206,8 @@ export default function Statistics({ userId }: StatisticsProps) {
               .map(topic => (
                 <div key={topic.id} className="flex items-center gap-4">
                   <div className="w-32 flex-shrink-0">
-                    <p className="text-sm text-slate-300 truncate">{topic.title}</p>
-                    <p className="text-xs text-slate-500">{topic.question_count} soru</p>
+                    <p className="text-sm text-[#333] truncate">{topic.title}</p>
+                    <p className="text-xs text-[#888]">{topic.question_count} soru</p>
                   </div>
                   <div className="flex-1">
                     <ProgressBar
@@ -235,12 +216,12 @@ export default function Statistics({ userId }: StatisticsProps) {
                       size="sm"
                       color={
                         topic.progress_percentage === 100 ? 'emerald' :
-                        topic.progress_percentage > 60 ? 'indigo' :
+                        topic.progress_percentage > 60 ? 'sky' :
                         topic.progress_percentage > 30 ? 'amber' : 'red'
                       }
                     />
                   </div>
-                  <span className="w-10 text-right text-sm text-slate-400 flex-shrink-0">
+                  <span className="w-10 text-right text-sm text-[#888] flex-shrink-0">
                     %{topic.progress_percentage}
                   </span>
                 </div>

@@ -62,13 +62,13 @@ export default function StudyMode({ userId }: StudyModeProps) {
       <div className="space-y-6">
         <button
           onClick={() => navigate(`/topics/${topicId}`)}
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+          className="flex items-center gap-2 text-sm text-[#888] hover:text-[#333] transition-colors"
         >
           <ArrowLeft size={16} />
           Geri Dön
         </button>
         <Card className="text-center py-16">
-          <p className="text-slate-300 font-medium mb-2">Bu konuda henüz soru yok</p>
+          <p className="text-[#333] font-medium mb-2">Bu konuda henüz soru yok</p>
           <Button onClick={() => navigate(`/topics/${topicId}`)}>
             Soru Ekle
           </Button>
@@ -85,24 +85,24 @@ export default function StudyMode({ userId }: StudyModeProps) {
       <div className="space-y-6 max-w-2xl mx-auto">
         <button
           onClick={() => navigate(`/topics/${topicId}`)}
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+          className="flex items-center gap-2 text-sm text-[#888] hover:text-[#333] transition-colors"
         >
           <ArrowLeft size={16} />
           Konuya Dön
         </button>
 
         <Card className="text-center py-10">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 mx-auto mb-6 flex items-center justify-center shadow-2xl shadow-indigo-500/30">
+          <div className="w-20 h-20 rounded-full bg-emerald-600 mx-auto mb-6 flex items-center justify-center">
             <Trophy size={36} className="text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-100 mb-2">Oturum Tamamlandı!</h2>
-          <p className="text-slate-400 mb-8">{studyQueue.length} soru çalışıldı</p>
+          <h2 className="text-2xl font-bold text-[#111] mb-2">Oturum Tamamlandı!</h2>
+          <p className="text-[#888] mb-8">{studyQueue.length} soru çalışıldı</p>
 
           <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto mb-8">
             {([0, 1, 2, 3] as ConfidenceLevel[]).map(level => (
-              <div key={level} className="bg-slate-800/50 rounded-xl p-3">
-                <p className="text-2xl font-bold text-slate-100">{ratingCounts[level]}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{getConfidenceLabel(level)}</p>
+              <div key={level} className="bg-[#f5f5f5] rounded-xl p-3">
+                <p className="text-2xl font-bold text-[#111]">{ratingCounts[level]}</p>
+                <p className="text-xs text-[#888] mt-0.5">{getConfidenceLabel(level)}</p>
               </div>
             ))}
           </div>
@@ -125,12 +125,12 @@ export default function StudyMode({ userId }: StudyModeProps) {
       <div className="flex items-center justify-between">
         <button
           onClick={() => navigate(`/topics/${topicId}`)}
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+          className="flex items-center gap-2 text-sm text-[#888] hover:text-[#333] transition-colors"
         >
           <ArrowLeft size={16} />
           {topic?.title || 'Konuya Dön'}
         </button>
-        <p className="text-sm text-slate-500">Çalışma Modu</p>
+        <p className="text-sm text-[#aaa]">Çalışma Modu</p>
       </div>
 
       <StudyCard

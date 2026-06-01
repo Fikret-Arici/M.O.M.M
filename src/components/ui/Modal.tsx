@@ -9,20 +9,11 @@ interface ModalProps {
   size?: 'sm' | 'md' | 'lg' | 'xl'
 }
 
-const sizeClasses = {
-  sm: 'max-w-sm',
-  md: 'max-w-md',
-  lg: 'max-w-2xl',
-  xl: 'max-w-4xl',
-}
+const sizes = { sm: 'max-w-sm', md: 'max-w-md', lg: 'max-w-2xl', xl: 'max-w-4xl' }
 
 export function Modal({ open, onClose, title, children, size = 'md' }: ModalProps) {
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
+    document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [open])
 
@@ -30,28 +21,24 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      <div
-        className={`
-          relative w-full ${sizeClasses[size]} bg-slate-900 border border-slate-700
-          rounded-2xl shadow-2xl shadow-black/50 max-h-[90vh] flex flex-col
-        `}
-      >
-        <div className="flex items-center justify-between p-5 border-b border-slate-800">
-          <h2 className="text-lg font-semibold text-slate-100">{title}</h2>
+      <div className="absolute inset-0 bg-black/30" onClick={onClose} />
+      <div className={`
+        relative w-full ${sizes[size]}
+        bg-white border border-[#e8e8e8]
+        rounded-xl shadow-xl shadow-black/10
+        max-h-[90vh] flex flex-col
+        animate-fade-up
+      `}>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#e8e8e8]">
+          <h2 className="text-sm font-semibold text-[#111]">{title}</h2>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-md text-[#aaa] hover:text-[#333] hover:bg-[#f0f0f0] transition-colors"
           >
-            <X size={18} />
+            <X size={16} />
           </button>
         </div>
-        <div className="overflow-y-auto flex-1 p-5">
-          {children}
-        </div>
+        <div className="overflow-y-auto flex-1 p-5">{children}</div>
       </div>
     </div>
   )

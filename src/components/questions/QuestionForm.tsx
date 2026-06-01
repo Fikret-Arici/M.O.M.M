@@ -109,8 +109,8 @@ export function QuestionForm({ initial, onSubmit, onCancel, loading }: QuestionF
 
       {isMultipleChoice && (
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-slate-300">Seçenekler</label>
-          {errors.options && <p className="text-xs text-red-400">{errors.options}</p>}
+          <label className="text-xs font-medium text-[#555]">Seçenekler</label>
+          {errors.options && <p className="text-xs text-red-500">{errors.options}</p>}
           {form.options.map((opt, i) => (
             <div key={i} className="flex items-center gap-2">
               <input
@@ -118,22 +118,22 @@ export function QuestionForm({ initial, onSubmit, onCancel, loading }: QuestionF
                 name="correct_option"
                 checked={form.correct_option === i}
                 onChange={() => setForm(f => ({ ...f, correct_option: i }))}
-                className="w-4 h-4 accent-indigo-500"
+                className="w-4 h-4 accent-emerald-600"
               />
               <input
                 type="text"
                 placeholder={`Seçenek ${String.fromCharCode(65 + i)}`}
                 value={opt}
                 onChange={e => updateOption(i, e.target.value)}
-                className="flex-1 bg-slate-800/50 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 placeholder-slate-500 outline-none focus:border-indigo-500"
+                className="flex-1 bg-[#fafafa] border border-[#e0e0e0] rounded-lg px-3 py-2 text-sm text-[#111] placeholder-[#bbb] outline-none focus:border-emerald-500"
               />
             </div>
           ))}
-          <p className="text-xs text-slate-500">Doğru cevabın solundaki radyo butonunu seçin</p>
+          <p className="text-xs text-[#888]">Doğru cevabın solundaki radyo butonunu seçin</p>
         </div>
       )}
 
-      <div className="border-t border-slate-800 pt-4">
+      <div className="border-t border-[#e8e8e8] pt-4">
         <Textarea
           label="Mülakatta Nasıl Cevaplanmalı? (opsiyonel)"
           placeholder="Profesyonel mülakat cevabını buraya yazın. Bu alan ezber için kullanılır..."

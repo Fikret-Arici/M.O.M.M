@@ -8,21 +8,16 @@ interface CardProps {
   padding?: 'none' | 'sm' | 'md' | 'lg'
 }
 
-const paddingClasses = {
-  none: '',
-  sm: 'p-4',
-  md: 'p-5',
-  lg: 'p-6',
-}
+const paddingMap = { none: '', sm: 'p-4', md: 'p-5', lg: 'p-6' }
 
 export function Card({ children, className = '', onClick, hover = false, padding = 'md' }: CardProps) {
   return (
     <div
       onClick={onClick}
       className={`
-        bg-slate-900 border border-slate-800 rounded-2xl
-        ${paddingClasses[padding]}
-        ${hover ? 'hover:border-indigo-500/50 hover:bg-slate-800/80 transition-all duration-200 cursor-pointer' : ''}
+        bg-white border border-[#e8e8e8] rounded-xl
+        ${paddingMap[padding]}
+        ${hover ? 'hover:border-[#d0d0d0] hover:bg-[#fafafa] cursor-pointer transition-colors duration-150' : ''}
         ${className}
       `}
     >

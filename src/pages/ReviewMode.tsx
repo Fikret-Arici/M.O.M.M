@@ -67,13 +67,13 @@ export default function ReviewMode({ userId }: ReviewModeProps) {
   if (queue.length === 0) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-slate-100">Tekrar Modu</h1>
+        <h1 className="text-2xl font-bold text-[#111]">Tekrar Modu</h1>
         <Card className="text-center py-16">
-          <div className="w-16 h-16 rounded-2xl bg-emerald-500/20 mx-auto mb-4 flex items-center justify-center">
-            <CheckCircle size={28} className="text-emerald-400" />
+          <div className="w-16 h-16 rounded-2xl bg-emerald-600/10 mx-auto mb-4 flex items-center justify-center">
+            <CheckCircle size={28} className="text-emerald-600" />
           </div>
-          <p className="text-slate-300 font-medium mb-2">Tebrikler! Tekrar edilecek soru yok</p>
-          <p className="text-sm text-slate-500 mb-6">
+          <p className="text-[#333] font-medium mb-2">Tebrikler! Tekrar edilecek soru yok</p>
+          <p className="text-sm text-[#888] mb-6">
             Spaced repetition sistemine göre bugün tekrar gereken soru bulunmuyor.
           </p>
           <Button onClick={() => navigate('/topics')}>Konulara Git</Button>
@@ -88,18 +88,18 @@ export default function ReviewMode({ userId }: ReviewModeProps) {
 
     return (
       <div className="space-y-6 max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold text-slate-100">Tekrar Modu</h1>
+        <h1 className="text-2xl font-bold text-[#111]">Tekrar Modu</h1>
         <Card className="text-center py-10">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-600 to-teal-600 mx-auto mb-6 flex items-center justify-center shadow-2xl shadow-emerald-500/30">
+          <div className="w-20 h-20 rounded-full bg-emerald-600 mx-auto mb-6 flex items-center justify-center">
             <Trophy size={36} className="text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-100 mb-2">Tekrar Tamamlandı!</h2>
-          <p className="text-slate-400 mb-8">{queue.length} soru tekrar edildi</p>
+          <h2 className="text-2xl font-bold text-[#111] mb-2">Tekrar Tamamlandı!</h2>
+          <p className="text-[#888] mb-8">{queue.length} soru tekrar edildi</p>
           <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto mb-8">
             {([0, 1, 2, 3] as ConfidenceLevel[]).map(level => (
-              <div key={level} className="bg-slate-800/50 rounded-xl p-3">
-                <p className="text-2xl font-bold text-slate-100">{ratingCounts[level]}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{getConfidenceLabel(level)}</p>
+              <div key={level} className="bg-[#f5f5f5] rounded-xl p-3">
+                <p className="text-2xl font-bold text-[#111]">{ratingCounts[level]}</p>
+                <p className="text-xs text-[#888] mt-0.5">{getConfidenceLabel(level)}</p>
               </div>
             ))}
           </div>
@@ -112,8 +112,8 @@ export default function ReviewMode({ userId }: ReviewModeProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-100">Tekrar Modu</h1>
-        <div className="flex items-center gap-2 text-sm text-amber-400">
+        <h1 className="text-2xl font-bold text-[#111]">Tekrar Modu</h1>
+        <div className="flex items-center gap-2 text-sm text-amber-600">
           <RefreshCw size={16} />
           <span>{queue.length} soru bekliyor</span>
         </div>

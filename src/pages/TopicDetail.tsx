@@ -79,23 +79,23 @@ export default function TopicDetail({ userId }: TopicDetailProps) {
       <div>
         <button
           onClick={() => navigate('/topics')}
-          className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 transition-colors mb-4"
+          className="flex items-center gap-2 text-sm text-[#888] hover:text-[#333] transition-colors mb-4"
         >
           <ArrowLeft size={16} />
           Konulara Dön
         </button>
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600/30 to-violet-600/30 border border-indigo-500/30 flex items-center justify-center">
-              <BookOpen size={22} className="text-indigo-400" />
+            <div className="w-12 h-12 rounded-2xl bg-[#f0f0f0] border border-[#e8e8e8] flex items-center justify-center">
+              <BookOpen size={22} className="text-[#aaa]" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-100">{topic.title}</h1>
+              <h1 className="text-2xl font-bold text-[#111]">{topic.title}</h1>
               {topic.description && (
-                <p className="text-sm text-slate-400 mt-0.5">{topic.description}</p>
+                <p className="text-sm text-[#888] mt-0.5">{topic.description}</p>
               )}
               {topic.category && (
-                <Badge className="bg-indigo-500/20 text-indigo-400 border-indigo-500/30 mt-1">
+                <Badge className="bg-[#f0f0f0] text-[#888] border-[#e8e8e8] mt-1">
                   {topic.category}
                 </Badge>
               )}
@@ -124,26 +124,26 @@ export default function TopicDetail({ userId }: TopicDetailProps) {
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'Toplam', value: questions.length, color: 'text-slate-300' },
-          { label: 'Yeni', value: questions.length - memorized - learning, color: 'text-slate-400' },
-          { label: 'Öğreniliyor', value: learning, color: 'text-blue-400' },
-          { label: 'Ezberlendi', value: memorized, color: 'text-emerald-400' },
+          { label: 'Toplam', value: questions.length, color: 'text-[#111]' },
+          { label: 'Yeni', value: questions.length - memorized - learning, color: 'text-[#888]' },
+          { label: 'Öğreniliyor', value: learning, color: 'text-sky-600' },
+          { label: 'Ezberlendi', value: memorized, color: 'text-emerald-600' },
         ].map(stat => (
           <Card key={stat.label} padding="sm" className="text-center">
             <p className={`text-xl font-bold ${stat.color}`}>{stat.value}</p>
-            <p className="text-xs text-slate-500 mt-0.5">{stat.label}</p>
+            <p className="text-xs text-[#888] mt-0.5">{stat.label}</p>
           </Card>
         ))}
       </div>
 
-      <ProgressBar value={memorized} max={questions.length || 1} showLabel color={progressPercent === 100 ? 'emerald' : 'indigo'} />
+      <ProgressBar value={memorized} max={questions.length || 1} showLabel color={progressPercent === 100 ? 'emerald' : 'sky'} />
 
       {/* AI button placeholder */}
-      <Card className="border-violet-500/20 bg-violet-500/5">
+      <Card className="border-[#e8e8e8] bg-[#fafafa]">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-medium text-violet-300">AI ile Soru Üret</p>
-            <p className="text-xs text-slate-500 mt-0.5">Konu hakkında otomatik soru-cevap oluştur</p>
+            <p className="text-sm font-medium text-[#333]">AI ile Soru Üret</p>
+            <p className="text-xs text-[#888] mt-0.5">Konu hakkında otomatik soru-cevap oluştur</p>
           </div>
           <Button variant="secondary" size="sm" disabled>
             Yakında
@@ -168,8 +168,8 @@ export default function TopicDetail({ userId }: TopicDetailProps) {
               onClick={() => setStatusFilter(s as typeof statusFilter)}
               className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all ${
                 statusFilter === s
-                  ? 'bg-indigo-600 text-white border-indigo-500'
-                  : 'bg-slate-800/50 text-slate-400 border-slate-700 hover:border-slate-500'
+                  ? 'bg-emerald-600 text-white border-emerald-600'
+                  : 'bg-white text-[#888] border-[#e8e8e8] hover:border-[#d0d0d0]'
               }`}
             >
               {{ all: 'Tümü', new: 'Yeni', learning: 'Öğreniliyor', memorized: 'Ezberlendi' }[s]}
@@ -181,8 +181,8 @@ export default function TopicDetail({ userId }: TopicDetailProps) {
               onClick={() => setDifficultyFilter(d === difficultyFilter ? '' : d)}
               className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all hidden sm:block ${
                 difficultyFilter === d
-                  ? 'bg-indigo-600 text-white border-indigo-500'
-                  : 'bg-slate-800/50 text-slate-400 border-slate-700 hover:border-slate-500'
+                  ? 'bg-emerald-600 text-white border-emerald-600'
+                  : 'bg-white text-[#888] border-[#e8e8e8] hover:border-[#d0d0d0]'
               }`}
             >
               {getDifficultyLabel(d as Difficulty)}
@@ -194,7 +194,7 @@ export default function TopicDetail({ userId }: TopicDetailProps) {
       {/* Questions list */}
       {filtered.length === 0 ? (
         <Card className="text-center py-12">
-          <p className="text-slate-300 font-medium mb-2">
+          <p className="text-[#333] font-medium mb-2">
             {questions.length === 0 ? 'Henüz soru eklenmemiş' : 'Sonuç bulunamadı'}
           </p>
           {questions.length === 0 && (

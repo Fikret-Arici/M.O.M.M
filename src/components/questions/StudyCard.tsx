@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Eye, CheckCircle } from 'lucide-react'
-import { Card } from '../ui/Card'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
 import type { QuestionWithProgress, ConfidenceLevel } from '../../types'
@@ -19,25 +18,19 @@ interface StudyCardProps {
 export function StudyCard({ question, currentIndex, total, onRate }: StudyCardProps) {
   const [revealed, setRevealed] = useState(false)
 
-  const handleReveal = () => setRevealed(true)
-
   return (
     <div className="max-w-2xl mx-auto">
-      {/* Progress indicator */}
-      <div className="flex items-center justify-between mb-6">
-        <span className="text-sm text-slate-400">
-          {currentIndex + 1} / {total}
-        </span>
-        <div className="flex gap-1">
+      {/* Progress bar */}
+      <div className="flex items-center gap-3 mb-6">
+        <span className="text-xs text-[#888] flex-shrink-0">{currentIndex + 1} / {total}</span>
+        <div className="flex-1 flex gap-1">
           {Array.from({ length: Math.min(total, 20) }).map((_, i) => (
             <div
               key={i}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i < currentIndex
-                  ? 'w-4 bg-emerald-500'
-                  : i === currentIndex
-                  ? 'w-6 bg-indigo-500'
-                  : 'w-4 bg-slate-700'
+              className={`flex-1 h-1 rounded-full transition-all duration-300 ${
+                i < currentIndex ? 'bg-emerald-500' :
+                i === currentIndex ? 'bg-emerald-400' :
+                'bg-[#e8e8e8]'
               }`}
             />
           ))}
@@ -47,87 +40,63 @@ export function StudyCard({ question, currentIndex, total, onRate }: StudyCardPr
         </Badge>
       </div>
 
-      {/* Question card */}
-      <Card className="mb-4" padding="lg">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-6 h-6 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
-            <span className="text-xs font-bold text-indigo-400">{currentIndex + 1}</span>
-          </div>
-          <span className="text-xs text-slate-500 uppercase tracking-wide">Soru</span>
-        </div>
-        <p className="text-lg text-slate-100 leading-relaxed font-medium">
-          {question.question_text}
-        </p>
+      {/* Question */}
+      <div className="bg-white border border-[#e8e8e8] rounded-xl p-6 mb-4">
+        <p className="text-[11px] text-[#bbb] uppercase tracking-wider mb-4">Soru {currentIndex + 1}</p>
+        <p className="text-base text-[#111] leading-relaxed font-medium">{question.question_text}</p>
         {question.question_type === 'multiple_choice' && question.options && !revealed && (
-          <div className="mt-4 space-y-2">
+          <div className="mt-5 space-y-2">
             {question.options.map((opt, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800/50 border border-slate-700 text-sm text-slate-400"
-              >
-                <span className="font-mono text-xs w-4">{String.fromCharCode(65 + i)}.</span>
+              <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#f5f5f5] border border-[#e8e8e8] text-sm text-[#888]">
+                <span className="font-mono text-xs w-4 text-[#bbb]">{String.fromCharCode(65 + i)}.</span>
                 {opt}
               </div>
             ))}
           </div>
         )}
-      </Card>
+      </div>
 
       {!revealed ? (
-        <Button
-          variant="primary"
-          size="lg"
-          icon={<Eye size={18} />}
-          onClick={handleReveal}
-          className="w-full"
-        >
+        <Button variant="primary" size="lg" icon={<Eye size={16} />} onClick={() => setRevealed(true)} className="w-full">
           Cevabı Gör
         </Button>
       ) : (
-        <div className="space-y-4">
-          {/* Answer card */}
-          <Card className="border-indigo-500/30 bg-indigo-950/30" padding="lg">
+        <div className="space-y-3">
+          {/* Answer */}
+          <div className="bg-white border border-[#e8e8e8] rounded-xl p-5">
             <div className="flex items-center gap-2 mb-3">
-              <CheckCircle size={16} className="text-indigo-400" />
-              <span className="text-xs text-indigo-400 uppercase tracking-wide font-medium">Cevap</span>
+              <CheckCircle size={14} className="text-emerald-600" />
+              <span className="text-[11px] text-emerald-700 uppercase tracking-wider font-medium">Cevap</span>
             </div>
-            <p className="text-slate-200 leading-relaxed whitespace-pre-wrap">
-              {question.answer_text}
-            </p>
+            <p className="text-sm text-[#333] leading-relaxed whitespace-pre-wrap">{question.answer_text}</p>
             {question.question_type === 'multiple_choice' && question.correct_option !== null && question.options && (
-              <div className="mt-3 pt-3 border-t border-indigo-500/20">
-                <p className="text-xs text-indigo-400 mb-1">Doğru Cevap:</p>
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-sm text-emerald-300">
+              <div className="mt-4 pt-4 border-t border-[#f0f0f0]">
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-600/10 border border-emerald-600/20 text-sm text-emerald-700">
                   <span className="font-mono text-xs">{String.fromCharCode(65 + question.correct_option)}.</span>
                   {question.options[question.correct_option]}
                 </div>
               </div>
             )}
-          </Card>
+          </div>
 
-          {/* Interview answer */}
           {question.interview_answer && (
-            <Card className="border-violet-500/30 bg-violet-950/20" padding="md">
-              <p className="text-xs text-violet-400 uppercase tracking-wide font-medium mb-2">Mülakatta Nasıl Söylenir?</p>
-              <p className="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
-                {question.interview_answer}
-              </p>
-            </Card>
+            <div className="bg-[#fafafa] border border-[#e8e8e8] rounded-xl p-5">
+              <p className="text-[11px] text-[#bbb] uppercase tracking-wider mb-2">Mülakatta Nasıl Söylenir?</p>
+              <p className="text-sm text-[#444] leading-relaxed whitespace-pre-wrap">{question.interview_answer}</p>
+            </div>
           )}
 
-          {/* Confidence rating */}
-          <div>
-            <p className="text-sm text-slate-400 text-center mb-3">Kendini nasıl değerlendiriyorsun?</p>
+          {/* Rating */}
+          <div className="pt-2">
+            <p className="text-xs text-[#888] text-center mb-3">Kendini değerlendir</p>
             <div className="grid grid-cols-2 gap-2">
               {CONFIDENCE_LEVELS.map(level => (
                 <button
                   key={level}
                   onClick={() => onRate(level)}
-                  className={`
-                    px-4 py-3 rounded-xl border text-sm font-medium
-                    transition-all duration-200 hover:scale-[1.02] cursor-pointer
-                    ${getConfidenceColor(level)}
-                  `}
+                  className={`px-4 py-3 rounded-xl border text-sm font-medium cursor-pointer
+                    transition-colors duration-150 hover:opacity-80 active:scale-[0.98]
+                    ${getConfidenceColor(level)}`}
                 >
                   {getConfidenceLabel(level)}
                 </button>

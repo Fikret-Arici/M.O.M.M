@@ -62,8 +62,8 @@ export default function Topics({ userId }: TopicsProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-100">Konular</h1>
-          <p className="text-slate-400 text-sm mt-1">{topics.length} konu</p>
+          <h1 className="text-2xl font-bold text-[#111]">Konular</h1>
+          <p className="text-[#888] text-sm mt-1">{topics.length} konu</p>
         </div>
         <Button icon={<Plus size={16} />} onClick={() => setModalOpen(true)}>
           Konu Ekle
@@ -85,8 +85,8 @@ export default function Topics({ userId }: TopicsProps) {
             onClick={() => setCategoryFilter('')}
             className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all ${
               !categoryFilter
-                ? 'bg-indigo-600 text-white border-indigo-500'
-                : 'bg-slate-800/50 text-slate-400 border-slate-700 hover:border-slate-500'
+                ? 'bg-emerald-600 text-white border-emerald-600'
+                : 'bg-white text-[#888] border-[#e8e8e8] hover:border-[#d0d0d0]'
             }`}
           >
             Tümü
@@ -97,8 +97,8 @@ export default function Topics({ userId }: TopicsProps) {
               onClick={() => setCategoryFilter(cat === categoryFilter ? '' : cat)}
               className={`px-3 py-2 rounded-xl text-xs font-medium border transition-all ${
                 categoryFilter === cat
-                  ? 'bg-indigo-600 text-white border-indigo-500'
-                  : 'bg-slate-800/50 text-slate-400 border-slate-700 hover:border-slate-500'
+                  ? 'bg-emerald-600 text-white border-emerald-600'
+                  : 'bg-white text-[#888] border-[#e8e8e8] hover:border-[#d0d0d0]'
               }`}
             >
               {cat}
@@ -110,13 +110,13 @@ export default function Topics({ userId }: TopicsProps) {
       {/* Topics grid */}
       {filtered.length === 0 ? (
         <Card className="text-center py-16">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-500/20 mx-auto mb-4 flex items-center justify-center">
-            <Plus size={28} className="text-indigo-400" />
+          <div className="w-16 h-16 rounded-2xl bg-[#f0f0f0] mx-auto mb-4 flex items-center justify-center">
+            <Plus size={28} className="text-[#bbb]" />
           </div>
-          <p className="text-slate-300 font-medium mb-2">
+          <p className="text-[#333] font-medium mb-2">
             {search || categoryFilter ? 'Sonuç bulunamadı' : 'Henüz konu eklenmemiş'}
           </p>
-          <p className="text-sm text-slate-500 mb-6">
+          <p className="text-sm text-[#888] mb-6">
             {search || categoryFilter
               ? 'Farklı bir arama deneyin'
               : 'SQL, Machine Learning, Churn gibi konular ekleyerek başlayın'}
